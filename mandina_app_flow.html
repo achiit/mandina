@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mandina — Home Concierge App Flow</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream: #F7F3EC;
+      --warm-white: #FDFAF5;
+      --navy: #1A2340;
+      --navy-mid: #243058;
+      --gold: #C9A84C;
+      --gold-light: #E8D5A3;
+      --terracotta: #C4614A;
+      --sage: #6B8C6E;
+      --stone: #8C8070;
+      --stone-light: #C8BFB0;
+      --ink: #2C2416;
+      --phase-1: #C9A84C;
+      --phase-2: #6B8C6E;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      background: var(--navy);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 60px 40px;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, #2E4080 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, #C9A84C22 0%, transparent 60%);
+    }
+
+    .cover-grain {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .cover-logo {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: fadeUp 1s ease both;
+    }
+
+    .logo-mark {
+      width: 80px;
+      height: 80px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .logo-mark::before {
+      content: 'M';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: -1px;
+    }
+
+    .logo-mark::after {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border: 1px solid #C9A84C44;
+      border-radius: 50%;
+    }
+
+    .cover h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(36px, 6vw, 64px);
+      color: var(--warm-white);
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--gold-light);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .cover-meta {
+      position: relative;
+      z-index: 2;
+      margin-top: 60px;
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .meta-item {
+      text-align: center;
+    }
+
+    .meta-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--stone-light);
+      margin-bottom: 4px;
+    }
+
+    .meta-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .cover-divider {
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--gold-light), transparent);
+      position: relative;
+      z-index: 2;
+      margin-top: 50px;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    /* ── TOC ── */
+    .toc-section {
+      background: var(--navy);
+      padding: 80px 40px;
+    }
+
+    .toc-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .toc-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 40px;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 2px;
+    }
+
+    .toc-item {
+      padding: 16px 20px;
+      background: #ffffff08;
+      border-left: 2px solid transparent;
+      transition: all 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+
+    .toc-item:hover {
+      background: #ffffff12;
+      border-left-color: var(--gold);
+    }
+
+    .toc-num {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .toc-name {
+      font-size: 13px;
+      color: var(--warm-white);
+      font-weight: 400;
+    }
+
+    /* ── ZONE HEADER ── */
+    .zone-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 50px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--stone-light);
+    }
+
+    .zone-badge {
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .zone-badge.sage {
+      background: var(--sage);
+      color: white;
+    }
+
+    .zone-badge.terracotta {
+      background: var(--terracotta);
+      color: white;
+    }
+
+    .zone-badge.stone {
+      background: var(--stone);
+      color: white;
+    }
+
+    .zone-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 400;
+      color: var(--navy);
+      letter-spacing: 1px;
+    }
+
+    .zone-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px;
+      font-weight: 300;
+      color: var(--stone-light);
+      line-height: 1;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    /* ── SCREEN CARD ── */
+    .screens-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .screen-card {
+      background: var(--warm-white);
+      border: 1px solid #E0D8CC;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .screen-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px #1A234018;
+    }
+
+    .screen-header {
+      background: var(--navy);
+      padding: 18px 22px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .screen-header.gold {
+      background: var(--gold);
+    }
+
+    .screen-header.sage {
+      background: var(--sage);
+    }
+
+    .screen-header.terracotta {
+      background: var(--terracotta);
+    }
+
+    .screen-header.stone-bg {
+      background: var(--stone);
+    }
+
+    .screen-header.navy-mid {
+      background: var(--navy-mid);
+    }
+
+    .screen-num {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 500;
+    }
+
+    .screen-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.8);
+      white-space: nowrap;
+    }
+
+    .screen-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: white;
+      margin-top: 8px;
+      line-height: 1.2;
+    }
+
+    .screen-body {
+      padding: 22px;
+    }
+
+    .screen-desc {
+      font-size: 13px;
+      color: var(--stone);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .screen-elements {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .screen-elements li {
+      font-size: 12.5px;
+      color: var(--ink);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+
+    .screen-elements li::before {
+      content: '—';
+      color: var(--gold);
+      font-size: 10px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .transition-arrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 22px;
+      background: #F0EBE3;
+      border-top: 1px solid #E0D8CC;
+      font-size: 11px;
+      color: var(--stone);
+      letter-spacing: 0.5px;
+    }
+
+    .transition-arrow span {
+      color: var(--gold);
+      font-size: 14px;
+    }
+
+    /* ── FLOW CONNECTOR ── */
+    .flow-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      gap: 4px;
+    }
+
+    .flow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .flow-line {
+      width: 1px;
+      height: 30px;
+      background: linear-gradient(to bottom, var(--gold), var(--stone-light));
+    }
+
+    .flow-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--stone);
+      background: var(--cream);
+      padding: 4px 10px;
+      border: 1px solid #E0D8CC;
+      border-radius: 20px;
+    }
+
+    /* ── BUDGET SECTION ── */
+    .budget-section {
+      background: var(--navy);
+      padding: 80px 40px;
+    }
+
+    .budget-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .budget-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      color: var(--warm-white);
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+
+    .budget-sub {
+      font-size: 13px;
+      color: var(--stone-light);
+      margin-bottom: 50px;
+      letter-spacing: 1px;
+    }
+
+    .budget-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .budget-table th {
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 12px 16px;
+      border-bottom: 1px solid #ffffff18;
+    }
+
+    .budget-table td {
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--warm-white);
+      border-bottom: 1px solid #ffffff08;
+    }
+
+    .budget-table tr:hover td {
+      background: #ffffff06;
+    }
+
+    .budget-table .phase-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    .phase-mvp {
+      background: #C9A84C22;
+      color: var(--gold);
+    }
+
+    .phase-2 {
+      background: #6B8C6E22;
+      color: #8BBE8E;
+    }
+
+    .amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      color: var(--gold);
+    }
+
+    .budget-total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 16px;
+      border-top: 2px solid var(--gold);
+      margin-top: 8px;
+    }
+
+    .budget-total-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--stone-light);
+    }
+
+    .budget-total-amt {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      color: var(--gold);
+    }
+
+    /* ── SEPARATOR ── */
+    .sep {
+      border: none;
+      border-top: 1px solid #E0D8CC;
+      margin: 0;
+    }
+
+    .sep-navy {
+      border-top-color: #ffffff14;
+    }
+
+    /* ── TECH STACK ── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .tech-card {
+      background: var(--warm-white);
+      border: 1px solid #E0D8CC;
+      padding: 20px;
+      border-radius: 4px;
+    }
+
+    .tech-cat {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .tech-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tech-list li {
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .section {
+        padding: 60px 24px;
+      }
+
+      .zone-num {
+        display: none;
+      }
+
+      .cover-meta {
+        gap: 30px;
+      }
+
+      .budget-table {
+        font-size: 11px;
+      }
+
+      .budget-table td,
+      .budget-table th {
+        padding: 10px 10px;
+      }
+    }
+
+    /* ── PHASE BANNER ── */
+    .phase-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 2px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .phase-banner.mvp {
+      background: #C9A84C18;
+      color: var(--gold);
+      border: 1px solid #C9A84C44;
+    }
+
+    .phase-banner.p2 {
+      background: #6B8C6E18;
+      color: var(--sage);
+      border: 1px solid #6B8C6E44;
+    }
+
+    .phase-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════ COVER -->
+  <section class="cover">
+    <div class="cover-grain"></div>
+    <div class="cover-logo">
+      <!-- <div class="logo-mark"></div> -->
+      <h1>Mandina</h1>
+      <p class="cover-sub">Home Concierge Platform — Full App Flow</p>
+    </div>
+    <div class="cover-meta">
+      <div class="meta-item">
+        <div class="meta-label">Platform</div>
+        <div class="meta-value">Mobile (iOS & Android)</div>
+      </div>
+      <!-- <div class="meta-item"><div class="meta-label">Budget</div><div class="meta-value">₹7,00,000</div></div> -->
+      <div class="meta-item">
+        <div class="meta-label">MVP Timeline</div>
+        <div class="meta-value">10–14 Weeks</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Total Screens</div>
+        <div class="meta-value">28 Screens - 30 Screens</div>
+      </div>
+    </div>
+    <div class="cover-divider"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ TABLE OF CONTENTS -->
+  <div class="toc-section">
+    <div class="toc-inner">
+      <div class="toc-title">Contents</div>
+      <div class="toc-grid">
+        <a class="toc-item" href="#zone-preauth">
+          <div class="toc-num">Zone 01</div>
+          <div class="toc-name">Pre-Auth Experience</div>
+        </a>
+        <a class="toc-item" href="#zone-auth">
+          <div class="toc-num">Zone 02</div>
+          <div class="toc-name">Authentication</div>
+        </a>
+        <a class="toc-item" href="#zone-setup">
+          <div class="toc-num">Zone 03</div>
+          <div class="toc-name">Home Setup</div>
+        </a>
+        <a class="toc-item" href="#zone-dashboard">
+          <div class="toc-num">Zone 04</div>
+          <div class="toc-name">Main Dashboard</div>
+        </a>
+        <a class="toc-item" href="#zone-issue">
+          <div class="toc-num">Zone 05</div>
+          <div class="toc-name">Issue Submission</div>
+        </a>
+        <a class="toc-item" href="#zone-concierge">
+          <div class="toc-num">Zone 06</div>
+          <div class="toc-name">Live Concierge</div>
+        </a>
+        <a class="toc-item" href="#zone-booking">
+          <div class="toc-num">Zone 07</div>
+          <div class="toc-name">Service & Booking</div>
+        </a>
+        <a class="toc-item" href="#zone-payment">
+          <div class="toc-num">Zone 08</div>
+          <div class="toc-name">Payments & Trust</div>
+        </a>
+        <a class="toc-item" href="#zone-tracking">
+          <div class="toc-num">Zone 09</div>
+          <div class="toc-name">Live Tracking</div>
+        </a>
+        <a class="toc-item" href="#zone-history">
+          <div class="toc-num">Zone 10</div>
+          <div class="toc-name">History & Passport</div>
+        </a>
+        <a class="toc-item" href="#budget">
+          <div class="toc-num">—</div>
+          <div class="toc-name">Budget Breakdown</div>
+        </a>
+        <a class="toc-item" href="#tech">
+          <div class="toc-num">—</div>
+          <div class="toc-name">Tech Stack</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ ZONE 01 — PRE-AUTH -->
+  <section id="zone-preauth" class="section">
+    <div class="zone-header">
+      <span class="zone-badge">Zone 01</span>
+      <h2 class="zone-title">Pre-Auth Experience</h2>
+      <div class="zone-num">01</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1
+    </div>
+
+    <div class="screens-grid">
+
+      <!-- Screen 01 -->
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 01</div>
+            <div class="screen-name">Splash / Logo Screen</div>
+          </div>
+          <span class="screen-tag">~2.5 sec</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">First touchpoint. Sets the premium tone of the app. Plays on every cold launch.</p>
+          <ul class="screen-elements">
+            <li>Dark navy full-screen background</li>
+            <li>Mandina logomark appears with a slow scale-up + fade-in (800ms ease)</li>
+            <li>Wordmark fades in below logo with letter-spacing animation</li>
+            <li>Thin gold line draws underneath the wordmark (stroke animation)</li>
+            <li>Gentle radial glow pulses once, then fades</li>
+            <li>Auto-advances to Onboarding (first time) or Dashboard (returning users)</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> First-time users go to Onboarding · Returning users skip to
+            Dashboard</div>
+        </div>
+      </div>
+
+      <!-- Screen 02 -->
+      <div class="screen-card">
+        <div class="screen-header navy-mid">
+          <div>
+            <div class="screen-num">SCREEN 02</div>
+            <div class="screen-name">Onboarding — Slide 1</div>
+          </div>
+          <span class="screen-tag">Swipeable</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Introduces the core value proposition. Slide 1 of 3 in an auto-play carousel.</p>
+          <ul class="screen-elements">
+            <li>Illustration: A cosy home with a glowing chat bubble emerging from it</li>
+            <li>Headline: <em>"Your Home Has an Expert on Call"</em></li>
+            <li>Body: Short 1-line benefit statement</li>
+            <li>Swipe dots indicator at bottom (3 dots)</li>
+            <li>Skip button (top-right) takes to Auth Gateway</li>
+            <li>Slide transitions with a gentle horizontal parallax</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screen 03 -->
+      <div class="screen-card">
+        <div class="screen-header navy-mid">
+          <div>
+            <div class="screen-num">SCREEN 03</div>
+            <div class="screen-name">Onboarding — Slide 2</div>
+          </div>
+          <span class="screen-tag">Swipeable</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Explains service coordination — the second core pillar.</p>
+          <ul class="screen-elements">
+            <li>Illustration: Calendar, wrench and a handshake icon in motion</li>
+            <li>Headline: <em>"We Find, Book, and Manage It All"</em></li>
+            <li>Body: One-line emphasis on zero hassle</li>
+            <li>Animated icon loop (subtle bounce every 3 seconds)</li>
+            <li>Same dot + skip navigation</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screen 04 -->
+      <div class="screen-card">
+        <div class="screen-header navy-mid">
+          <div>
+            <div class="screen-num">SCREEN 04</div>
+            <div class="screen-name">Onboarding — Slide 3</div>
+          </div>
+          <span class="screen-tag">Last Slide</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Introduces the Home Passport concept. Ends with a clear CTA.</p>
+          <ul class="screen-elements">
+            <li>Illustration: A digital "passport book" opening to reveal appliance icons</li>
+            <li>Headline: <em>"Your Home's Complete Digital Record"</em></li>
+            <li>Body: One-line about tracking history and future repairs</li>
+            <li>Primary CTA button: <strong>"Get Started"</strong> — navy pill button</li>
+            <li>Secondary link: <strong>"I already have an account"</strong></li>
+            <li>CTA button scales up with a subtle spring animation on tap</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> "Get Started" → Sign Up · "Have account" → Login</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ ZONE 02 — AUTH -->
+  <section id="zone-auth" class="section">
+    <div class="zone-header">
+      <span class="zone-badge">Zone 02</span>
+      <h2 class="zone-title">Authentication</h2>
+      <div class="zone-num">02</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1
+    </div>
+
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 05</div>
+            <div class="screen-name">Auth Gateway</div>
+          </div>
+          <span class="screen-tag">Entry Point</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Clean dual-action screen. No form fields yet — just intent selection.</p>
+          <ul class="screen-elements">
+            <li>Mandina logo (compact) centred at top</li>
+            <li>Large button: <strong>"Create Account"</strong> (filled, navy)</li>
+            <li>Large button: <strong>"Sign In"</strong> (outlined, navy border)</li>
+            <li>Divider or "Continue with" section (Google / Apple Sign-In — Phase 2)</li>
+            <li>Light background, minimal, premium feel</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 06</div>
+            <div class="screen-name">Sign Up Form</div>
+          </div>
+          <span class="screen-tag">New Users</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Minimal sign-up form. Collects only what's needed to get started.</p>
+          <ul class="screen-elements">
+            <li>Fields: Full Name, Email Address, Mobile Number (with country code picker)</li>
+            <li>Password field with show/hide toggle</li>
+            <li>Terms & Privacy checkbox (required)</li>
+            <li>CTA: <strong>"Send Verification Code"</strong></li>
+            <li>Keyboard-aware scrolling so form never hides behind keyboard</li>
+            <li>Real-time field validation with soft red/green indicators</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> On submit → OTP Verification Screen</div>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 07</div>
+            <div class="screen-name">OTP Verification</div>
+          </div>
+          <span class="screen-tag">Security</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">6-digit OTP sent to mobile. Simple, focused screen.</p>
+          <ul class="screen-elements">
+            <li>Masked phone number shown ("Sent to +44 ••• •••• 1234")</li>
+            <li>6 individual input boxes that auto-advance on digit entry</li>
+            <li>Auto-read SMS OTP (with OS permission prompt)</li>
+            <li>Countdown timer: "Resend in 0:59"</li>
+            <li>Resend link activates after timer expires</li>
+            <li>Wrong OTP shows subtle shake animation on input row</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> Valid OTP → Home Setup (new) or Dashboard (returning)</div>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 08</div>
+            <div class="screen-name">Sign In Screen</div>
+          </div>
+          <span class="screen-tag">Returning Users</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Fast login for returning users. Biometric login offered after first sign-in.</p>
+          <ul class="screen-elements">
+            <li>Email + Password fields</li>
+            <li>"Forgot Password?" link (triggers email reset flow)</li>
+            <li>Face ID / Touch ID option if previously enabled</li>
+            <li>Biometric login: one-tap icon → instant unlock</li>
+            <li>Sign In button</li>
+            <li>"Don't have an account?" link to Sign Up</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> Authenticated → Dashboard</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ ZONE 03 — HOME SETUP -->
+  <section id="zone-setup" class="section">
+    <div class="zone-header">
+      <span class="zone-badge sage">Zone 03</span>
+      <h2 class="zone-title">Home Setup — Home Passport Init</h2>
+      <div class="zone-num">03</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1
+    </div>
+
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 09</div>
+            <div class="screen-name">Welcome + Name</div>
+          </div>
+          <span class="screen-tag">First Time Only</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Personal welcome moment before entering data. Builds warmth.</p>
+          <ul class="screen-elements">
+            <li>"Welcome, [First Name]" — large serif heading, staggered fade-in</li>
+            <li>Short copy: "Let's set up your Home Passport so we're ready when you need us."</li>
+            <li>Animated illustration of a home being "unlocked"</li>
+            <li>CTA: "Let's Begin" → progresses to Property Setup</li>
+            <li>This screen is shown ONCE only — never again after initial setup</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 10</div>
+            <div class="screen-name">Property Setup</div>
+          </div>
+          <span class="screen-tag">Home Passport</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Captures the home's basic details. This becomes the foundation of the Home Passport.
+          </p>
+          <ul class="screen-elements">
+            <li>Full address input (with address autocomplete from Google Places API)</li>
+            <li>Property type selector: House / Apartment / Condo / Townhouse (icon tiles)</li>
+            <li>Year built (optional — picker wheel)</li>
+            <li>Approx. square footage (optional — slider)</li>
+            <li>Number of bedrooms / bathrooms (stepper input)</li>
+            <li>Ownership type: Owner / Renter (affects feature access)</li>
+            <li>Progress bar: Step 1 of 3</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 11</div>
+            <div class="screen-name">Appliance & Systems Setup</div>
+          </div>
+          <span class="screen-tag">Home Passport</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">User selects categories of appliances/systems they have. Details can be filled in
+            gradually.</p>
+          <ul class="screen-elements">
+            <li>Grid of category tiles: HVAC, Plumbing, Electrical, Kitchen, Laundry, Security, Garden</li>
+            <li>Tap any tile to expand it and add item details (Brand, Model, Year of install, Warranty expiry)</li>
+            <li>"Skip for now" link — user can come back later via Home Passport screen</li>
+            <li>Each filled-in category shows a green checkmark on tile</li>
+            <li>Progress bar: Step 2 of 3</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 12</div>
+            <div class="screen-name">Setup Complete</div>
+          </div>
+          <span class="screen-tag">Completion</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Celebratory moment. Reinforces value before dropping the user into the app.</p>
+          <ul class="screen-elements">
+            <li>Animated checkmark or passport-stamp animation (Lottie)</li>
+            <li>Headline: "Your Home Passport is Ready"</li>
+            <li>3 benefit pills shown: "Instant Expert Access · Managed Bookings · Smart Maintenance"</li>
+            <li>CTA: "Take Me Home" → navigates to Dashboard with a full-screen slide transition</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> → Main Dashboard (Home Screen)</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ ZONE 04 — DASHBOARD -->
+  <section id="zone-dashboard" class="section">
+    <div class="zone-header">
+      <span class="zone-badge">Zone 04</span>
+      <h2 class="zone-title">Main Dashboard — Home Screen</h2>
+      <div class="zone-num">04</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1
+    </div>
+
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 13</div>
+            <div class="screen-name">Home Dashboard</div>
+          </div>
+          <span class="screen-tag">Core Screen</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">The central hub of the app. Gives the user a snapshot of their home and quick access to
+            everything.</p>
+          <ul class="screen-elements">
+            <li><strong>Header:</strong> "Good morning, [Name]" + address of active property + avatar</li>
+            <li><strong>Primary CTA Card:</strong> Large navy card — "Get Help Now" with concierge icon and availability
+              indicator ("3 experts online")</li>
+            <li><strong>Active Issues Strip:</strong> Horizontally scrollable cards for any open cases</li>
+            <li><strong>Upcoming Services:</strong> Next scheduled service date with provider name</li>
+            <li><strong>Maintenance Alerts:</strong> Yellow alert cards (e.g., "Boiler service due in 14 days")</li>
+            <li><strong>Home Passport shortcut:</strong> Mini passport card showing last updated date</li>
+            <li><strong>Bottom Tab Bar:</strong> Home · Issues · Passport · Bookings · Profile</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 13b</div>
+            <div class="screen-name">Notifications Centre</div>
+          </div>
+          <span class="screen-tag">Bell Icon</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Accessible from the bell icon on the Dashboard header.</p>
+          <ul class="screen-elements">
+            <li>Chronological notification list with category icons (Maintenance, Booking, Payment, Concierge)</li>
+            <li>Unread notifications have a subtle gold left border</li>
+            <li>Tap notification → navigates to the relevant screen</li>
+            <li>Swipe left on any notification to dismiss</li>
+            <li>"Clear All" option at top right</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ ZONE 05 — ISSUE SUBMISSION -->
+  <section id="zone-issue" class="section">
+    <div class="zone-header">
+      <span class="zone-badge terracotta">Zone 05</span>
+      <h2 class="zone-title">Issue Submission Flow</h2>
+      <div class="zone-num">05</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1
+    </div>
+
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-header terracotta">
+          <div>
+            <div class="screen-num">SCREEN 14</div>
+            <div class="screen-name">Issue Category Selection</div>
+          </div>
+          <span class="screen-tag">Step 1 of 3</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">User describes what's wrong. Guided category selection removes guesswork.</p>
+          <ul class="screen-elements">
+            <li>Header: "What's the problem?" — calm, reassuring tone</li>
+            <li>6 category tiles with icon + label: Plumbing · Electrical · HVAC · Appliance · Structural · Other</li>
+            <li>Selected tile gets a gold border highlight + check icon</li>
+            <li>Sub-category appears below on selection (e.g., under Plumbing: Leak, Blockage, No Hot Water, etc.)</li>
+            <li>Urgency indicator: "Is this an emergency?" toggle with red highlight</li>
+            <li>Next button activates once category + sub-category are selected</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header terracotta">
+          <div>
+            <div class="screen-num">SCREEN 15</div>
+            <div class="screen-name">Describe + Media Upload</div>
+          </div>
+          <span class="screen-tag">Step 2 of 3</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">User adds more detail and can attach photos or video of the issue.</p>
+          <ul class="screen-elements">
+            <li>Text area: "Describe what's happening…" (with character count)</li>
+            <li>Media strip: Tap to add photos or a short video (max 30 sec)</li>
+            <li>Thumbnail preview of attached media with remove option</li>
+            <li>Which property / room selector (pre-populated from Passport)</li>
+            <li>Optional: "Which appliance is affected?" (pulls from Home Passport)</li>
+            <li>Submit button: "Find Me an Expert"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header terracotta">
+          <div>
+            <div class="screen-num">SCREEN 16</div>
+            <div class="screen-name">Matching / Finding Expert</div>
+          </div>
+          <span class="screen-tag">Step 3 of 3</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">A brief animated loading screen while the system routes the request to an available
+            concierge.</p>
+          <ul class="screen-elements">
+            <li>Animated pulsing concierge avatar (Lottie loop)</li>
+            <li>Status message cycles: "Reviewing your issue…" → "Finding the right expert…" → "Connecting you now…"
+            </li>
+            <li>Target wait time indicator: "Typical wait: under 5 minutes"</li>
+            <li>Option to receive a push notification when expert is ready (instead of waiting on screen)</li>
+            <li>Cancel option at bottom</li>
+            <li>Auto-advances when concierge accepts the case</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> Expert accepted → Live Chat Screen</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ ZONE 06 — CONCIERGE -->
+  <section id="zone-concierge" class="section">
+    <div class="zone-header">
+      <span class="zone-badge">Zone 06</span>
+      <h2 class="zone-title">Live Concierge Interaction</h2>
+      <div class="zone-num">06</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1
+    </div>
+
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 17</div>
+            <div class="screen-name">Live Chat Interface</div>
+          </div>
+          <span class="screen-tag">Core Feature</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">The primary interaction screen. Real-time chat between user and the concierge expert.
+          </p>
+          <ul class="screen-elements">
+            <li>Expert header: photo, name, role title ("Home Expert"), online indicator</li>
+            <li>Chat bubbles: User (right, navy) · Expert (left, cream/white)</li>
+            <li>Typing indicator (animated dots) when expert is responding</li>
+            <li>Message types: Text · Photo · Quick-reply options (expert can send structured answers)</li>
+            <li>Paperclip icon to attach additional photos mid-chat</li>
+            <li>"Switch to Video" button in header (upgrades interaction)</li>
+            <li>Issue summary pinned at top (expandable)</li>
+            <li>Expert diagnosis card can be sent inline (structured card in chat)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 18</div>
+            <div class="screen-name">Video Consultation</div>
+          </div>
+          <span class="screen-tag">Upgrade Option</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">User shows the issue live to the concierge via camera. Reduces misdiagnosis
+            significantly.</p>
+          <ul class="screen-elements">
+            <li>Full-screen video call UI (WebRTC-based)</li>
+            <li>Expert's face in small pip (corner), user's camera fills screen</li>
+            <li>User can flip camera to show the issue area</li>
+            <li>Torch/flashlight toggle (for dark areas like under-sink)</li>
+            <li>Mute and end-call buttons</li>
+            <li>Expert can capture a screenshot of the issue with user permission</li>
+            <li>On call end → returns to chat with a call summary card</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 19</div>
+            <div class="screen-name">Expert Diagnosis Card</div>
+          </div>
+          <span class="screen-tag">Outcome</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Expert sends a structured diagnosis card inside the chat. This is the key deliverable
+            from the concierge interaction.</p>
+          <ul class="screen-elements">
+            <li>Issue Summary: What was reported</li>
+            <li>Expert Assessment: What the expert believes the problem is</li>
+            <li>Urgency Level: 🔴 Urgent · 🟡 Soon · 🟢 When convenient</li>
+            <li>Recommended Trade: Plumber / Electrician / HVAC Tech, etc.</li>
+            <li>Rough Price Range: "Estimated £80–£180 for this type of repair"</li>
+            <li>Two action buttons: <strong>"Find Me a Service Provider"</strong> · <strong>"I'll Handle It
+                Myself"</strong></li>
+            <li>Card is saved permanently to case history</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> "Find Me a Provider" → Service Recommendation Screen</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ ZONE 07 — BOOKING -->
+  <section id="zone-booking" class="section">
+    <div class="zone-header">
+      <span class="zone-badge sage">Zone 07</span>
+      <h2 class="zone-title">Service Recommendation & Booking</h2>
+      <div class="zone-num">07</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1
+    </div>
+
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 20</div>
+            <div class="screen-name">Service Provider Recommendations</div>
+          </div>
+          <span class="screen-tag">Curated List</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Concierge-curated list of vetted providers for this specific issue type. Not a generic
+            marketplace.</p>
+          <ul class="screen-elements">
+            <li>Header: "Recommended for [Issue Type]" + expert's avatar (showing it's personally vetted)</li>
+            <li>Provider cards: Photo, Name, Trade, Star Rating, Number of jobs, Estimated availability</li>
+            <li>Price estimate per provider (if available): shown as a range</li>
+            <li>Verified badge on all providers</li>
+            <li>"Why this provider?" expandable section with concierge note</li>
+            <li>Tap card → Provider Detail Screen</li>
+            <li>3–5 providers shown maximum (not overwhelming)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 21</div>
+            <div class="screen-name">Provider Detail</div>
+          </div>
+          <span class="screen-tag">Profile</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Deep profile of a specific provider before the user commits to booking.</p>
+          <ul class="screen-elements">
+            <li>Photo, name, trade category, years of experience</li>
+            <li>Star rating with review count + recent review snippets</li>
+            <li>Verified certifications / licences</li>
+            <li>Service area shown on mini-map</li>
+            <li>Earliest available slot highlighted</li>
+            <li>Price guide (call-out fee + hourly / fixed)</li>
+            <li>CTA: <strong>"Book This Provider"</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 22</div>
+            <div class="screen-name">Date & Time Selection</div>
+          </div>
+          <span class="screen-tag">Booking Step 1</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Calendar-based slot picker. Shows real availability pulled from provider.</p>
+          <ul class="screen-elements">
+            <li>Monthly calendar view with available days highlighted in gold</li>
+            <li>On date selection, time slots appear below (morning / afternoon / evening)</li>
+            <li>Slot pills: available (tappable) vs booked (greyed out)</li>
+            <li>Time slots show duration estimate (e.g., "60–90 min job")</li>
+            <li>Confirm button at bottom: "Book for [Day, Time]"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 23</div>
+            <div class="screen-name">Booking Confirmation</div>
+          </div>
+          <span class="screen-tag">Booking Step 2</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Final review before payment. User sees everything clearly before committing.</p>
+          <ul class="screen-elements">
+            <li>Summary card: Provider, Date/Time, Issue type, Address</li>
+            <li>Estimated cost range (where available)</li>
+            <li>Special instructions text field (optional)</li>
+            <li>Access instructions: "How should the provider enter?" (Key safe, ring bell, etc.)</li>
+            <li>Payment method selector (if payment is required upfront)</li>
+            <li>CTA: <strong>"Confirm Booking"</strong></li>
+            <li>Booking is managed by the concierge team — highlighted reassurance line</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> Confirmed → Payment Screen (if applicable)</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ ZONE 08 — PAYMENT -->
+  <section id="zone-payment" class="section">
+    <div class="zone-header">
+      <span class="zone-badge">Zone 08</span>
+      <h2 class="zone-title">Payments & Trust Layer</h2>
+      <div class="zone-num">08</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1 (Basic) + Phase 2 (Escrow)
+    </div>
+
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 24</div>
+            <div class="screen-name">Payment Screen</div>
+          </div>
+          <span class="screen-tag">Secure</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Handles subscription payment (base plan) and/or service call-out fee payment.</p>
+          <ul class="screen-elements">
+            <li>Amount shown prominently with breakdown (service fee, any platform fee)</li>
+            <li>Saved card display (last 4 digits + card type icon)</li>
+            <li>Add new card (Stripe card input form)</li>
+            <li>Apple Pay / Google Pay one-tap option</li>
+            <li>Payment protection option: "Enable Escrow — pay released after job completion" (Phase 2)</li>
+            <li>Secure payment badge (SSL / Stripe powered label)</li>
+            <li>CTA: <strong>"Pay Securely"</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header">
+          <div>
+            <div class="screen-num">SCREEN 24b</div>
+            <div class="screen-name">Payment Success</div>
+          </div>
+          <span class="screen-tag">Confirmation</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Reassuring post-payment confirmation. Sets expectations for what comes next.</p>
+          <ul class="screen-elements">
+            <li>Animated green checkmark / Lottie success animation</li>
+            <li>Booking reference number</li>
+            <li>"What happens next" steps (3 bullet timeline): Concierge confirms · Provider notified · You get a
+              reminder</li>
+            <li>Invoice download link (PDF)</li>
+            <li>CTA: "Go to My Bookings" or "Back to Home"</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> → Bookings tab / Dashboard</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ ZONE 09 — TRACKING -->
+  <section id="zone-tracking" class="section">
+    <div class="zone-header">
+      <span class="zone-badge terracotta">Zone 09</span>
+      <h2 class="zone-title">Day-of Service & Live Tracking</h2>
+      <div class="zone-num">09</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1 (Status) · Phase 2 (Live Map)
+    </div>
+
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-header terracotta">
+          <div>
+            <div class="screen-num">SCREEN 25</div>
+            <div class="screen-name">Pre-Visit Card</div>
+          </div>
+          <span class="screen-tag">Sent Day Before</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Push notification sent the evening before the visit. Tapping it opens this screen.</p>
+          <ul class="screen-elements">
+            <li>Provider's name and photo (knowing who's coming to your door)</li>
+            <li>Scheduled time window (e.g., "Between 10am – 12pm")</li>
+            <li>Provider's vehicle description (optional, Phase 2)</li>
+            <li>Contact button: Tap to message or call provider</li>
+            <li>Reschedule option (if needed, with 24hr notice)</li>
+            <li>Safety note: "All Mandina providers are vetted and verified"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header terracotta">
+          <div>
+            <div class="screen-num">SCREEN 26</div>
+            <div class="screen-name">Live Tracking / Status Screen</div>
+          </div>
+          <span class="screen-tag">Day of Visit</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Tracks the status of the service visit from provider on-the-way to job complete.</p>
+          <ul class="screen-elements">
+            <li>Status timeline: Confirmed → Provider En Route → Arrived → In Progress → Complete</li>
+            <li>Current step highlighted with animated pulse</li>
+            <li>ETA shown when en route: "Arriving in ~18 minutes" (Phase 2: live map view)</li>
+            <li>Push notification sent at each status change</li>
+            <li>Contact provider button throughout</li>
+            <li>On "Complete" status: Rate & Review prompt appears</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header terracotta">
+          <div>
+            <div class="screen-num">SCREEN 27</div>
+            <div class="screen-name">Post-Service Review & Feedback</div>
+          </div>
+          <span class="screen-tag">Completion</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Captures feedback immediately after job completion. Feeds back into platform quality.
+          </p>
+          <ul class="screen-elements">
+            <li>Star rating (1–5) for: Provider Quality, Punctuality, Value for Money</li>
+            <li>Optional written review (free text)</li>
+            <li>Rating for concierge advice accuracy: "Was the expert's assessment correct?"</li>
+            <li>Photo upload: option to document the finished repair</li>
+            <li>"Would you use this provider again?" Yes / No</li>
+            <li>Submit button → triggers invoice delivery and case closure</li>
+          </ul>
+          <div class="transition-arrow"><span>→</span> Case closed → Logged in History & Home Passport</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ ZONE 10 — HISTORY & PASSPORT -->
+  <section id="zone-history" class="section">
+    <div class="zone-header">
+      <span class="zone-badge sage">Zone 10</span>
+      <h2 class="zone-title">History, Home Passport & Profile</h2>
+      <div class="zone-num">10</div>
+    </div>
+    <div class="phase-banner mvp">
+      <div class="phase-dot"></div>MVP — Phase 1
+    </div>
+
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 28a</div>
+            <div class="screen-name">Issues History</div>
+          </div>
+          <span class="screen-tag">Issues Tab</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Full chronological log of all past and open cases. The user's home service diary.</p>
+          <ul class="screen-elements">
+            <li>Filter tabs: All · Open · Resolved</li>
+            <li>Each case card: issue type icon, title, date, status badge, provider name</li>
+            <li>Tap case → Case Detail Screen (full chat log, diagnosis, invoice, photos)</li>
+            <li>Search bar (search by issue type, provider, date)</li>
+            <li>Export all history as PDF option (Profile settings)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header sage">
+          <div>
+            <div class="screen-num">SCREEN 28b</div>
+            <div class="screen-name">Home Passport</div>
+          </div>
+          <span class="screen-tag">Passport Tab</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">The digital record of the user's home. Living document that updates after every
+            service.</p>
+          <ul class="screen-elements">
+            <li>Property summary header: address, type, year built</li>
+            <li>Appliances & Systems list (expandable rows): brand, model, install year, warranty status, last serviced
+            </li>
+            <li>Add / Edit any appliance at any time</li>
+            <li>Maintenance forecast: "Boiler service recommended by March 2026" (rule-based initially)</li>
+            <li>Annual Home Condition Review card (Phase 2 — human assessment)</li>
+            <li>Health / Accessibility notes section (higher subscription tier)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-header stone-bg">
+          <div>
+            <div class="screen-num">SCREEN 28c</div>
+            <div class="screen-name">Profile & Settings</div>
+          </div>
+          <span class="screen-tag">Profile Tab</span>
+        </div>
+        <div class="screen-body">
+          <p class="screen-desc">Account management, household members, subscription, and preferences.</p>
+          <ul class="screen-elements">
+            <li>User avatar + name + subscription tier badge</li>
+            <li>Manage Household Members: Add/remove users, assign permissions (view-only / full access)</li>
+            <li>Subscription Plan: Current plan, upgrade options</li>
+            <li>Saved payment methods</li>
+            <li>Notification preferences</li>
+            <li>Privacy & Data settings</li>
+            <li>Help & Support link → opens concierge chat (non-issue support)</li>
+            <li>Sign Out</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════════════════ BUDGET -->
+  <div id="budget" class="budget-section">
+    <div class="budget-inner">
+      <div class="budget-title">Breakdown of MVP(Total apprx. budget: ₹7,00,000)</div>
+      <!-- <p class="budget-sub">Total Allocated · ₹7,00,000 · Mobile App (React Native, iOS + Android)</p> -->
+
+      <table class="budget-table">
+        <thead>
+          <tr>
+            <th>Phase / Component</th>
+            <th>Scope</th>
+            <th>Phase</th>
+            <!-- <th style="text-align:right">Allocation</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Discovery, UX & Architecture</td>
+            <td>Wireframes, user journeys, DB schema, API design</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹55,000</td> -->
+          </tr>
+          <tr>
+            <td>UI Design (All 28 Screens)</td>
+            <td>Figma hi-fi design, component system, animations spec</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹70,000</td> -->
+          </tr>
+          <tr>
+            <td>Auth + Onboarding + Home Setup</td>
+            <td>Zones 01–03 · OTP, Profile, Passport init</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹65,000</td> -->
+          </tr>
+          <tr>
+            <td>Dashboard + Notifications</td>
+            <td>Zone 04 · Home screen, alerts, nav structure</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹45,000</td> -->
+          </tr>
+          <tr>
+            <td>Issue Submission Flow</td>
+            <td>Zone 05 · Category → Media → Matching</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹55,000</td> -->
+          </tr>
+          <tr>
+            <td>Live Chat + Concierge Dashboard</td>
+            <td>Zone 06 · Real-time chat (WebSocket), expert side panel</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹80,000</td> -->
+          </tr>
+          <tr>
+            <td>Service Booking + Provider Management</td>
+            <td>Zone 07 · Recommendations, calendar, booking confirm</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹70,000</td> -->
+          </tr>
+          <tr>
+            <td>Payments Integration (Stripe)</td>
+            <td>Zone 08 · Card payment, Apple/Google Pay, invoicing</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹55,000</td> -->
+          </tr>
+          <tr>
+            <td>Tracking + Post-Service Flow</td>
+            <td>Zone 09 · Status timeline, pre-visit card, review</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹45,000</td> -->
+          </tr>
+          <tr>
+            <td>Home Passport + History + Profile</td>
+            <td>Zone 10 · Full CRUD for passport, case history</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹50,000</td> -->
+          </tr>
+          <tr>
+            <td>Backend API + Database + Infrastructure</td>
+            <td>Node.js/Express API, PostgreSQL, AWS/Firebase hosting</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹65,000</td> -->
+          </tr>
+          <tr>
+            <td>QA, Testing & Pilot Launch</td>
+            <td>End-to-end testing, device testing, bug fixes, app store submission</td>
+            <td><span class="phase-tag phase-mvp">MVP</span></td>
+            <!-- <td class="amount" style="text-align:right">₹45,000</td> -->
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div class="budget-total">
+        <div>
+          <div class="budget-total-label">Total MVP Build Cost</div>
+          <div style="font-size:12px; color: #8C8070; margin-top:4px;">Includes design, development, QA, and launch
+          </div>
+        </div>
+        <div class="budget-total-amt">₹7,00,000</div>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ TECH STACK -->
+  <section id="tech" class="section">
+    <div class="zone-header">
+      <span class="zone-badge stone">Tech Stack</span>
+      <h2 class="zone-title">Recommended Technology</h2>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-cat">Mobile App</div>
+        <ul class="tech-list">
+          <li>Flutter</li>
+          <li>Dart</li>
+          <li>Provider</li>
+          <li>Lottie (animations)</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">Backend</div>
+        <ul class="tech-list">
+          <li>Node.js + Express</li>
+          <li>PostgreSQL</li>
+          <li>Redis (caching)</li>
+          <li>WebSocket (live chat)</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">Payments</div>
+        <ul class="tech-list">
+          <li>Stripe</li>
+          <li>Apple Pay / Google Pay</li>
+          <li>Stripe Invoicing</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">Infrastructure</div>
+        <ul class="tech-list">
+          <li>AWS (EC2 + RDS)</li>
+          <li>S3 (media storage)</li>
+          <li>Firebase Push (FCM)</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">Video (Phase 1)</div>
+        <ul class="tech-list">
+          <li>Video call service provider</li>
+          <!-- <li>or Daily.co</li>
+          <li>WebRTC-based</li> -->
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">Auth & OTP</div>
+        <ul class="tech-list">
+          <li>Email OTP</li>
+          <li>Phone OTP</li>
+          <li>Google Login</li>
+          <!-- <li>SMS via Twilio</li>
+          <li>Biometric (Expo)</li> -->
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ FOOTER -->
+  <div style="background:var(--navy); padding: 50px 40px; text-align:center;">
+    <div
+      style="font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--gold); font-weight:300; letter-spacing:4px; text-transform:uppercase; margin-bottom:10px;">
+      Mandina</div>
+    <div style="font-size:11px; letter-spacing:2px; color:var(--stone-light); text-transform:uppercase;">Home Concierge
+      Platform · App Flow Document</div>
+    <div style="width:40px; height:1px; background:var(--gold); margin:24px auto;"></div>
+    <!-- <div style="font-size:11px; color:#ffffff33;">28 Screens · 10 Zones · MVP in 10–14 Weeks · ₹7,00,000</div> -->
+  </div>
+
+</body>
+
+</html>
